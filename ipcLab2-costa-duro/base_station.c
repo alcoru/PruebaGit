@@ -20,6 +20,8 @@ int main(int argc, char *argv[]) {
     unsigned int echolen;
     int sock, result;
     int received = 0;
+    int number;
+    char word[];
 
     /* Check input arguments */
     if (argc != 4) {
@@ -43,6 +45,24 @@ int main(int argc, char *argv[]) {
     result = connect(sock, (struct sockaddr *) &echoserver, sizeof(echoserver));
     if (result < 0) {
         err_sys("Error connect");
+    }
+
+
+
+    while(1){
+        printf("Enter a number: ");
+        fgets(number, 1, stdin);
+
+        /* Write to socket */
+        write(sock, number, strlen(number) + 1);
+        fprintf(stdout, " sent \n");
+
+        printf("Enter a word");
+        fgets(word, 255, stdin);
+
+        /* Write to socket */
+        write(sock, $word[0], strlen(word) + 1);
+        fprintf(stdout, " sent \n");
     }
     
     /* Write to socket */
