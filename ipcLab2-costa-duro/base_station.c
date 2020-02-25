@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     int sock, result;
     int received = 0;
     int number;
-    char word[];
+    char word[255];
 
     /* Check input arguments */
     if (argc != 4) {
