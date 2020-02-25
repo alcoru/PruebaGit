@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-
+    printf("holaaaaa");
     while(1){
         printf("Enter a number: ");
         fgets(number, sizeof(char), stdin);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         write(sock, word, strlen(word) + 1);
         fprintf(stdout, " sent \n");
     }
-    
+    printf("Adioooooss")
     /* Write to socket */
     write(sock, argv[2], strlen(argv[2]) + 1);
     fprintf(stdout, " sent \n");
