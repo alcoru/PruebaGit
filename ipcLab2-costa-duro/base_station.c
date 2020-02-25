@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         write(sock, word, strlen(word) + 1);
         fprintf(stdout, " sent \n");
     }
-    printf("Adioooooss")
+    printf("Adioooooss");
     /* Write to socket */
     write(sock, argv[2], strlen(argv[2]) + 1);
     fprintf(stdout, " sent \n");
