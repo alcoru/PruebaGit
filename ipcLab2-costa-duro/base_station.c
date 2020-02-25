@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
         /* Write to socket */
         write(sock, number, strlen(number)+1);
-        fprintf(stdout, " sent \n");
+        fprintf(stdout, " hola \n");
 
         printf("Enter a word");
         fgets(word, 255, stdin);
