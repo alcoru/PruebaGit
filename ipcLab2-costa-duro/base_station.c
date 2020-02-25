@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
         fgets(word, 255, stdin);
 
         /* Write to socket */
-        write(sock, $word[0], strlen(word) + 1);
+        write(sock, word, strlen(word) + 1);
         fprintf(stdout, " sent \n");
     }
     
