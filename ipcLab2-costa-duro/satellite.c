@@ -45,14 +45,23 @@ int receive_int(int *num, int fd)
 }
 
 void handle_client(int sock) {
-    char buffer[BUFFSIZE];
+    int received_int = 0;
+
+    return_status = read(sock, &received_int, sizeof(received_int));
+    if (return_status > 0) {
+    fprintf(stdout, "Received int = %d\n", ntohl(received_int));
+    }
+    else {
+    // Handling erros here
+    }
+    /*char buffer[BUFFSIZE];
     int received = -1;
 
-    /* Read from socket */
+    /* Read from socket 
     read(sock, &buffer[0], BUFFSIZE);
     printf("Message from client: %s\n", buffer);
 
-    /* Write to socket */
+    /* Write to socket 
     write(sock, buffer, strlen(buffer) + 1);
 
     /* Close socket */

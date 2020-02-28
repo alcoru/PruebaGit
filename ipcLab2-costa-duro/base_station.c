@@ -16,9 +16,10 @@
 
 void err_sys(char *mess) { perror(mess); exit(1); }
 
-int send_int(int num, int fd)
+/*int send_int(int num, int fd)
 {
     printf("%s", "Send_int");
+    printf("%d", num);
     int32_t conv = htonl(num);
     char *data = (char*)&conv;
     int left = sizeof(conv);
@@ -41,7 +42,7 @@ int send_int(int num, int fd)
     }
     while (left > 0);
     return 0;
-}
+}*/
 
 int main(int argc, char *argv[]) {
     struct sockaddr_in echoserver;
@@ -50,8 +51,7 @@ int main(int argc, char *argv[]) {
     int sock, result;
     int received = 0;
     char word[255];
-    int number;
-    int32_t conv;
+
 
     /* Check input arguments */
     if (argc != 4) {
@@ -112,6 +112,14 @@ int main(int argc, char *argv[]) {
         write(sock, word, strlen(word) + 1);
         fprintf(stdout, " sent \n");
     }
+
+    */
+    int number_to_send = 10000; // Put your value
+    int converted_number = htonl(number_to_send);
+
+    // Write the number to the opened socket
+    write(sock, &converted_number, sizeof(converted_number));
+
     printf("Adioooooss");
     /* Write to socket 
     write(sock, argv[2], strlen(argv[2]) + 1);
