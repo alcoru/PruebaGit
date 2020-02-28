@@ -75,6 +75,9 @@ int main(int argc, char *argv[]) {
         err_sys("Error connect");
     }
 
+    send_int(5, sock);
+
+/*
     printf("holaaaaa");
     while(1){
 
@@ -90,31 +93,31 @@ int main(int argc, char *argv[]) {
         int n = sizeof(conv);
         int rc;
 
-        /*fgets(number, sizeof(char), stdin);*/
+        /*fgets(number, sizeof(char), stdin);
 
-        /* Write to socket */
+        /* Write to socket 
         rc = write(sock, data, n);
         fprintf(stdout, " sent \n");
 
-        /* Read from socket */
+        /* Read from socket 
         read(sock, buffer, BUFFSIZE);
         fprintf(stdout, " %s ...done \n", buffer);
 
         printf("Enter a word");
         fgets(word, 255, stdin);
 
-        /* Write to socket */
+        /* Write to socket 
         write(sock, word, strlen(word) + 1);
         fprintf(stdout, " sent \n");
     }
     printf("Adioooooss");
-    /* Write to socket */
+    /* Write to socket 
     write(sock, argv[2], strlen(argv[2]) + 1);
     fprintf(stdout, " sent \n");
     
-    /* Read from socket */
+    /* Read from socket
     read(sock, buffer, BUFFSIZE);
-    fprintf(stdout, " %s ...done \n", buffer);
+    fprintf(stdout, " %s ...done \n", buffer);*/
     
     /* Close socket */
     close(sock);
