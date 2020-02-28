@@ -20,7 +20,8 @@ int main(int argc, char *argv[]) {
     unsigned int echolen;
     int sock, result;
     int received = 0;
-    char word[255], number[1];
+    char word[255];
+    int number;
 
     /* Check input arguments */
     if (argc != 4) {
@@ -50,11 +51,16 @@ int main(int argc, char *argv[]) {
     printf("holaaaaa");
     while(1){
         printf("Enter a number: ");
-        fgets(number, sizeof(char), stdin);
+        scanf("%d", &number)
+        /*fgets(number, sizeof(char), stdin);*/
 
         /* Write to socket */
         write(sock, number, strlen(number)+1);
-        fprintf(stdout, " hola \n");
+        fprintf(stdout, " sent \n");
+
+        /* Read from socket */
+        read(sock, buffer, BUFFSIZE);
+        fprintf(stdout, " %s ...done \n", buffer);
 
         printf("Enter a word");
         fgets(word, 255, stdin);
