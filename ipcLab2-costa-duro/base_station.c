@@ -33,7 +33,7 @@ int send_int(int num, int fd)
             }
         }
         else {
-            printf(data);
+            printf("%d", data);
             data += rc;
             left -= rc;
         }
