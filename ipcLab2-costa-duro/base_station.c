@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         /*fgets(number, sizeof(char), stdin);*/
 
         /* Write to socket */
-        rc = write(sock, data, n;
+        rc = write(sock, data, n);
         fprintf(stdout, " sent \n");
 
         /* Read from socket */
