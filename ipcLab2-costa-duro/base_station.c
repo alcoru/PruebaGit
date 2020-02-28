@@ -50,8 +50,18 @@ int main(int argc, char *argv[]) {
 
     printf("holaaaaa");
     while(1){
-        printf("Enter a number: ");
-        scanf("%d", &number)
+        while (1)
+        {
+            printf("Enter a number: ");
+            scanf("%d", &number)
+            if (number >= 0 && number <= 9)
+            {
+                break;
+            }
+            
+        }
+        
+        
         /*fgets(number, sizeof(char), stdin);*/
 
         /* Write to socket */
