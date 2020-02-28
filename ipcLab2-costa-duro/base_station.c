@@ -15,6 +15,32 @@
 
 void err_sys(char *mess) { perror(mess); exit(1); }
 
+int send_int(int num, int fd)
+{
+    int32_t conv = htonl(num);
+    char *data = (char*)&conv;
+    int left = sizeof(conv);
+    int rc;
+    do {
+        rc = write(fd, data, left);
+        if (rc < 0) {
+            if ((errno == EAGAIN) || (errno == EWOULDBLOCK)) {
+                // use select() or epoll() to wait for the socket to be writable again
+            }
+            else if (errno != EINTR) {
+                return -1;
+            }
+        }
+        else {
+            printf(data);
+            data += rc;
+            left -= rc;
+        }
+    }
+    while (left > 0);
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     struct sockaddr_in echoserver;
     char buffer[BUFFSIZE];
@@ -48,7 +74,6 @@ int main(int argc, char *argv[]) {
     if (result < 0) {
         err_sys("Error connect");
     }
-
 
     printf("holaaaaa");
     while(1){

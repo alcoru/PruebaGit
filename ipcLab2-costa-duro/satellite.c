@@ -10,11 +10,38 @@
 #include <string.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <stdint.h>
 
 #define MAXPENDING 5    /* Maximum number of simultaneous connections */
 #define BUFFSIZE 255    /* Size of message to be reeived */
 
 void err_sys(char *mess) { perror(mess); exit(1); }
+
+int receive_int(int *num, int fd)
+{
+    int32_t ret;
+    char *data = (char*)&ret;
+    int left = sizeof(ret);
+    int rc;
+    do {
+        rc = read(fd, data, left);
+        if (rc <= 0) { /* instead of ret */
+            if ((errno == EAGAIN) || (errno == EWOULDBLOCK)) {
+                // use select() or epoll() to wait for the socket to be readable again
+            }
+            else if (errno != EINTR) {
+                return -1;
+            }
+        }
+        else {
+            data += rc;
+            left -= rc;
+        }
+    }
+    while (left > 0);
+    *num = ntohl(ret);
+    return 0;
+}
 
 void handle_client(int sock) {
     char buffer[BUFFSIZE];
