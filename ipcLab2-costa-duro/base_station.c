@@ -9,6 +9,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <stdint.h>
 
 #define BUFFSIZE 255
 
@@ -22,6 +23,7 @@ int main(int argc, char *argv[]) {
     int received = 0;
     char word[255];
     int number;
+    int32_t conv;
 
     /* Check input arguments */
     if (argc != 4) {
@@ -61,11 +63,15 @@ int main(int argc, char *argv[]) {
             
         }
         
-        
+        conv = htonl(number);
+        char*data = (char*)&conv;
+        int n = sizeof(conv);
+        int rc;
+
         /*fgets(number, sizeof(char), stdin);*/
 
         /* Write to socket */
-        write(sock, number, sizeof(number)+1);
+        rc = write(sock, data, n;
         fprintf(stdout, " sent \n");
 
         /* Read from socket */
