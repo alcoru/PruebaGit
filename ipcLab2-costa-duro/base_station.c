@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
         while (1)
         {
             printf("Enter a number: ");
-            scanf("%d", &number)
+            scanf("%d", &number);
             if (number >= 0 && number <= 9)
             {
                 break;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
         /*fgets(number, sizeof(char), stdin);*/
 
         /* Write to socket */
-        write(sock, number, strlen(number)+1);
+        write(sock, number, sizeof(number)+1);
         fprintf(stdout, " sent \n");
 
         /* Read from socket */
