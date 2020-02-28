@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
         err_sys("Error connect");
     }
 
-    send_int(5, sock);
+    //send_int(5, sock);
 
 /*
     printf("holaaaaa");

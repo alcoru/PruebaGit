@@ -47,7 +47,7 @@ int receive_int(int *num, int fd)
 void handle_client(int sock) {
     int received_int = 0;
 
-    return_status = read(sock, &received_int, sizeof(received_int));
+    int return_status = read(sock, &received_int, sizeof(received_int));
     if (return_status > 0) {
     fprintf(stdout, "Received int = %d\n", ntohl(received_int));
     }
