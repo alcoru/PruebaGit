@@ -18,6 +18,7 @@ void err_sys(char *mess) { perror(mess); exit(1); }
 
 int send_int(int num, int fd)
 {
+    printf("%s", "Send_int");
     int32_t conv = htonl(num);
     char *data = (char*)&conv;
     int left = sizeof(conv);
