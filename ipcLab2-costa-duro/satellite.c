@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <stdint.h>
+#include <errno.h>
 
 #define MAXPENDING 5    /* Maximum number of simultaneous connections */
 #define BUFFSIZE 255    /* Size of message to be reeived */
