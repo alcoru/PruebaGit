@@ -123,7 +123,6 @@ void handle_client(int sock, char ip[]) {
 
             /* Read from socket 2 */
             read(sock2, &buffer[0], BUFFSIZE);
-            printf("Message from client: %s\n", buffer);
 
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
