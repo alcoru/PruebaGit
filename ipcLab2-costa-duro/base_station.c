@@ -45,18 +45,6 @@ int receive_int(int *num, int fd)
 }
 
 void handle_client(int sock) {
-    /*int received_int = 0;
-
-    //int return_status = read(sock, &received_int, sizeof(received_int));
-    read(sock, %buffer[0], BUFFSIZE);
-    printf(stdout, "Received Word = %s\n", buffer);
-    if (return_status > 0) {
-    //fprintf(stdout, "Received int = %d\n", ntohl(received_int));
-    
-    }
-    else {
-    // Handling erros here
-    }*/
     char buffer[BUFFSIZE];
     int received = -1;
     while(1)
@@ -65,17 +53,14 @@ void handle_client(int sock) {
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
-        /* Write to socket */
-        write(sock, buffer, strlen(buffer) + 1);
-
         if(buffer[0] == '.')
         {
             break;
         }
-    }
 
-    /* Write to socket */
-    //write(sock, buffer, strlen(buffer) + 1);
+        /* Write to socket */
+        write(sock, buffer, strlen(buffer) + 1);
+    }
 
     printf("Bye");
 

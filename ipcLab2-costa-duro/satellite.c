@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     int sock, result;
     int received = 0;
     char word[255];
-    int number_to_send, converted_number;
+    int number;
 
 
 
@@ -51,31 +51,24 @@ int main(int argc, char *argv[]) {
         err_sys("Error connect");
     }
 
-    printf("Enter a number: \n");
-
     while(1){
 
-        scanf("%d", &number_to_send);
-        if (number_to_send < 0 && number_to_send > 9)
+        printf("Enter a number: \n");
+        scanf("%d", &number);
+        if (number < 0 && number > 9)
         {
             printf("Enter a valid number(0-9): \n");
-            continue;
         }
 
-        if (number_to_send == 0)
+        if (number == 0)
         {
             break;
         }
-        /*
-        converted_number = htonl(number_to_send);
-
-        // Write the number to the opened socket
-        write(sock, &converted_number, sizeof(converted_number));*/
 
         printf("Enter a word: \n");
         scanf("%s", word);
 
-        for (int i = 0; i < number_to_send; i++)
+        for (int i = 0; i < number; i++)
         {
             /* Write to socket */
             write(sock, word, strlen(word) + 1);
@@ -89,13 +82,6 @@ int main(int argc, char *argv[]) {
     
 
     printf("See you\n");
-    /* Write to socket 
-    write(sock, argv[2], strlen(argv[2]) + 1);
-    fprintf(stdout, " sent \n");
-    
-    /* Read from socket
-    read(sock, buffer, BUFFSIZE);
-    fprintf(stdout, " %s ...done \n", buffer);*/
     
     /* Close socket */
     close(sock);
