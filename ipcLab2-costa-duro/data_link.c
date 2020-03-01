@@ -71,7 +71,7 @@ void handle_client(int sock, char ip[]) {
             time_t now = time (0);
             sTm = gmtime (&now);
 
-            char inputTime[20];
+            char inputTime[20] = "as";
 
             strftime (inputTime, sizeof(inputTime), "%Y-%m-%d %H:%M:%S", sTm);
 
@@ -99,7 +99,7 @@ void handle_client(int sock, char ip[]) {
 
             pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
-            char outputTime[20];
+            char outputTime[20] = "";
 
             strftime (outputTime, sizeof(outputTime), "%Y-%m-%d %H:%M:%S", pTm);
 
