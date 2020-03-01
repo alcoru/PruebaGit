@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
         if (number == 0)
         {
-            word = '.'
+            word[0] = '.';
             write(sock, word, strlen(word) + 1);
             break;
         }
