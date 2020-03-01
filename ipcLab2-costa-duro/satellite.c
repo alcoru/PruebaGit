@@ -1,7 +1,6 @@
 /*
- * Filename: satellite.c
+ * Filename: base_station.c
  */
-
 
 #include <stdio.h>
 #include <sys/socket.h>
@@ -13,108 +12,90 @@
 #include <stdint.h>
 #include <errno.h>
 
-#define MAXPENDING 5    /* Maximum number of simultaneous connections */
-#define BUFFSIZE 255    /* Size of message to be reeived */
+#define BUFFSIZE 255
 
 void err_sys(char *mess) { perror(mess); exit(1); }
 
-int receive_int(int *num, int fd)
-{
-    int32_t ret;
-    char *data = (char*)&ret;
-    int left = sizeof(ret);
-    int rc;
-    do {
-        rc = read(fd, data, left);
-        if (rc <= 0) { /* instead of ret */
-            if ((errno == EAGAIN) || (errno == EWOULDBLOCK)) {
-                // use select() or epoll() to wait for the socket to be readable again
-            }
-            else if (errno != EINTR) {
-                return -1;
-            }
-        }
-        else {
-            data += rc;
-            left -= rc;
-        }
-    }
-    while (left > 0);
-    *num = ntohl(ret);
-    return 0;
-}
-
-void handle_client(int sock) {
-    int received_int = 0;
-
-    int return_status = read(sock, &received_int, sizeof(received_int));
-    if (return_status > 0) {
-    fprintf(stdout, "Received int = %d\n", ntohl(received_int));
-    }
-    else {
-    // Handling erros here
-    }
-    /*char buffer[BUFFSIZE];
-    int received = -1;
-
-    /* Read from socket 
-    read(sock, &buffer[0], BUFFSIZE);
-    printf("Message from client: %s\n", buffer);
-
-    /* Write to socket 
-    write(sock, buffer, strlen(buffer) + 1);
-
-    /* Close socket */
-    close(sock);
-}
-
 int main(int argc, char *argv[]) {
-    struct sockaddr_in echoserver, echoclient;
-    int serversock, clientsock;
-    int result;    
+    struct sockaddr_in echoserver;
+    char buffer[BUFFSIZE];
+    unsigned int echolen;
+    int sock, result;
+    int received = 0;
+    char word[255];
+    int number_to_send, converted_number;
+
+
 
     /* Check input arguments */
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <port>\n", argv[0]);
+    if (argc != 4) {
+        fprintf(stderr, "Usage: %s <ip_server> <word> <port>\n", argv[0]);
         exit(1);
     }
 
-    /* Create TCP socket */
-    serversock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (serversock < 0) {
+    /* Try to create TCP socket */
+    sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (sock < 0) {
         err_sys("Error socket");
     }
-
-    /* Set information for sockaddr_in structure */
-    memset(&echoserver, 0, sizeof(echoserver));       /* we reset memory */
+    
+    /* Set information for sockaddr_in */
+    memset(&echoserver, 0, sizeof(echoserver));       /* reset memory */
     echoserver.sin_family = AF_INET;                  /* Internet/IP */
-    echoserver.sin_addr.s_addr = htonl(INADDR_ANY);   /* ANY address */
-    echoserver.sin_port = htons(atoi(argv[1]));       /* server port */
-
-    /* Bind socket */
-    result = bind(serversock, (struct sockaddr *) &echoserver, sizeof(echoserver));
+    echoserver.sin_addr.s_addr = inet_addr(argv[1]);  /* IP address */
+    echoserver.sin_port = htons(atoi(argv[3]));       /* server port */
+    
+    /* Try to have a connection with the server */
+    result = connect(sock, (struct sockaddr *) &echoserver, sizeof(echoserver));
     if (result < 0) {
-        err_sys("Error bind");
+        err_sys("Error connect");
     }
 
-    /* Listen socket */
-    result = listen(serversock, MAXPENDING);
-    if (result < 0) {
-        err_sys("Error listen");
-    }
+    printf("Enter a number: \n");
 
-    /* loop */
-    while (1) {
-        unsigned int clientlen = sizeof(echoclient);
+    while(1){
 
-        /* Wait for a connection from a client */
-        clientsock = accept(serversock, (struct sockaddr *) &echoclient, &clientlen);
-        if (clientsock < 0) {
-            err_sys("Error accept");
+        scanf("%d", &number_to_send);
+        if (number_to_send < 0 && number_to_send > 9)
+        {
+            printf("Enter a valid number(0-9): \n");
+            continue;
         }
-        fprintf(stdout, "Client: %s\n", inet_ntoa(echoclient.sin_addr));
 
-        /* Call function to handle socket */
-        handle_client(clientsock);
+        if (numnber == 0)
+        {
+            break;
+        }
+        
+        converted_number = htonl(number_to_send);
+
+        int number_to_send = 10000; // Put your value
+        int converted_number = htonl(number_to_send);
+
+        // Write the number to the opened socket
+        write(sock, &converted_number, sizeof(converted_number));
+
+        printf("Enter a word: \n");
+        scanf("%s", char);
+
+        /* Write to socket */
+        write(sock, word, strlen(word) + 1);
+        fprintf(stdout, " sent \n");
     }
+
+    
+
+    printf("See you\n");
+    /* Write to socket 
+    write(sock, argv[2], strlen(argv[2]) + 1);
+    fprintf(stdout, " sent \n");
+    
+    /* Read from socket
+    read(sock, buffer, BUFFSIZE);
+    fprintf(stdout, " %s ...done \n", buffer);*/
+    
+    /* Close socket */
+    close(sock);
+    
+    exit(0);
 }
