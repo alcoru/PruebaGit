@@ -13,6 +13,7 @@
 #include <errno.h>
 
 #define BUFFSIZE 255
+#define CLOSECONNECTION "SHv+Hf<MdR/dpx5w" /* word to close connection */
 
 void err_sys(char *mess) { perror(mess); exit(1); }
 
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
 
         if (number == 0)
         {
-            word[0] = '.';
+            word = CLOSECONNECTION;
             write(sock, word, strlen(word) + 1);
             break;
         }
