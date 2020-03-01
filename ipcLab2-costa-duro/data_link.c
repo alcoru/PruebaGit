@@ -101,7 +101,7 @@ void handle_client(int sock, char ip[]) {
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
 
             char s[255] = "";
-            strcat(r, "[OUTPUT]  ");
+            strcat(s, "[OUTPUT]  ");
             strcat(s, buff);
             strcat(s, "- ");
             strcat(s, buffer);
