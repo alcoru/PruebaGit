@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     int result;    
 
     /* Check input arguments */
-    if (argc != 3) {
+    if (argc != 2) {
         fprintf(stderr, "Usage: %s <file>\n", argv[0]);
         exit(1);
     }

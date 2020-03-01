@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 
 
     /* Check input arguments */
-    if (argc != 4) {
+    if (argc != 3) {
         fprintf(stderr, "Usage: %s <ip_server> <port>\n", argv[0]);
         exit(1);
     }

@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
     int result;    
 
     /* Check input arguments */
-    if (argc != 4) {
+    if (argc != 3) {
         fprintf(stderr, "Usage: %s <ip_server> <file>\n", argv[0]);
         exit(1);
     }
