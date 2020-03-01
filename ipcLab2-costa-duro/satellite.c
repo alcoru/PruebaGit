@@ -62,6 +62,8 @@ int main(int argc, char *argv[]) {
 
         if (number == 0)
         {
+            word = '.'
+            write(sock, word, strlen(word) + 1);
             break;
         }
 
@@ -78,8 +80,6 @@ int main(int argc, char *argv[]) {
             fprintf(stdout, " %s ...done \n", buffer);
         }
     }
-
-    
 
     printf("See you\n");
     
