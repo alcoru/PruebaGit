@@ -27,7 +27,7 @@ void closeConnection(int sock1, int sock2){
     close(sock2);
 }
 
-void handle_client(int sock) {
+void handle_client(int sock, char ip[]) {
     struct sockaddr_in echose;
     char buffer[BUFFSIZE];
     unsigned int echolen;
@@ -44,12 +44,12 @@ void handle_client(int sock) {
     /* Set information for sockaddr_in */
     memset(&echose, 0, sizeof(echose));       /* reset memory */
     echose.sin_family = AF_INET;                  /* Internet/IP */
-    echose.sin_addr.s_addr = inet_addr(argv[1]);  /* IP address */
+    echose.sin_addr.s_addr = inet_addr(ip);  /* IP address */
     echose.sin_port = htons(8080);       /* server port */
 
     /* Try to have a connection with the server */
     result2 = connect(sock2, (struct sockaddr *) &echose, sizeof(echose));
-    if (result < 0) {
+    if (result2 < 0) {
         err_sys("Error connect");
     }
 
@@ -143,6 +143,6 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Client: %s\n", inet_ntoa(echoclient.sin_addr));
 
         /* Call function to handle socket */
-        handle_client(clientsock);
+        handle_client(clientsock, argv[1]);
     }
 }
