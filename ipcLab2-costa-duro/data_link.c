@@ -75,8 +75,9 @@ void handle_client(int sock, char ip[]) {
         {
             char r[255];
             strcat(r, buff);
+            strcat(r, "     ");
             strcat(r, buffer);
-            
+
             /* Write in file */
             fputs(r, fp);
 
