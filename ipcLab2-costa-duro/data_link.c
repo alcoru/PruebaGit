@@ -39,6 +39,7 @@ void handle_client(int sock, char ip[]) {
     /* Intorduce TimeStamp */
     char buff[20];
     struct tm *sTm;
+    struct tm *pTm;
 
     /* Try to create TCP socket */
     sock2 = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -88,17 +89,17 @@ void handle_client(int sock, char ip[]) {
             read(sock2, &buffer[0], BUFFSIZE);
             printf("Message from client: %s\n", buffer);
 
-            now = time (1);
-            sTm = gmtime (&now);
+            time_t post = time (1);
+            pTm = gmtime (&now);
 
-            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
+            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
 
-            r = "";
-            strcat(r, buff);
-            strcat(r, "     ");
-            strcat(r, buffer);
+            char s[255] = "";
+            strcat(s, buff);
+            strcat(s, "     ");
+            strcat(s, buffer);
 
-            fputs(r, fp);
+            fputs(s, fp);
 
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
