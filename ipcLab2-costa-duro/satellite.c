@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
             fprintf(stdout, " sent \n");
             /* Read from socket */
             read(sock, buffer, BUFFSIZE);
-            fprintf(stdout, " %s ...done \n", buffer);*/
+            fprintf(stdout, " %s ...done \n", buffer);
         }
     }
 
