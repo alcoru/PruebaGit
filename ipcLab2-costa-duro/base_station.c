@@ -42,7 +42,7 @@ void handle_client(int sock) {
         if(strcmp(buffer, CLOSECONNECTION) != 0)
         {
             /* Write in file */
-            fputs(strcat(buffer, "\n"), fp);
+            fputs(buffer, fp);
 
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
@@ -52,7 +52,7 @@ void handle_client(int sock) {
         {
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
-            
+
             closeConnection(sock);
             fclose(fp);
             break;
