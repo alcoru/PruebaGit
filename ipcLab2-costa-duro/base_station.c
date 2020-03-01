@@ -28,8 +28,13 @@ void handle_client(int sock) {
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
+        printf("%s", buffer);
+        printf("%s", CLOSECONNECTION);
+
         if(strcmp(buffer, CLOSECONNECTION) == 0)
         {
+            printf("%s", buffer);
+            printf("%s", CLOSECONNECTION);
             break;
         }
 
