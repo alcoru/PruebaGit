@@ -75,8 +75,9 @@ void handle_client(int sock, char ip[]) {
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
 
             char r[255] = "";
+            strcat(r, "[INPUT]  ");
             strcat(r, buff);
-            strcat(r, "     ");
+            strcat(r, "- ");
             strcat(r, buffer);
 
             /* Write in file */
@@ -92,13 +93,17 @@ void handle_client(int sock, char ip[]) {
             time_t post = time (0);
             pTm = gmtime (&post);
 
-            pTm->tm_sec += 30;
+            /* Generate random delay */
+            srand(time(NULL));
+
+            pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
 
             char s[255] = "";
+            strcat(r, "[OUTPUT]  ");
             strcat(s, buff);
-            strcat(s, "     ");
+            strcat(s, "- ");
             strcat(s, buffer);
 
             fputs(s, fp);
