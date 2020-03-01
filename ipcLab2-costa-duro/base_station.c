@@ -39,14 +39,20 @@ void handle_client(int sock) {
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
-        /* Write in file */
-        fputs(strcat(buffer, "\n"), fp);
-
-        /* Write to socket */
-        write(sock, buffer, strlen(buffer) + 1);
-
-        if(strcmp(buffer, CLOSECONNECTION) == 0)
+        if(strcmp(buffer, CLOSECONNECTION) != 0)
         {
+            /* Write in file */
+            fputs(strcat(buffer, "\n"), fp);
+
+            /* Write to socket */
+            write(sock, buffer, strlen(buffer) + 1);
+        }
+
+        else
+        {
+            /* Write to socket */
+            write(sock, buffer, strlen(buffer) + 1);
+            
             closeConnection(sock);
             fclose(fp);
             break;
