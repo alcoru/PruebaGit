@@ -88,6 +88,18 @@ void handle_client(int sock, char ip[]) {
             read(sock2, &buffer[0], BUFFSIZE);
             printf("Message from client: %s\n", buffer);
 
+            time_t now = time (1);
+            sTm = gmtime (&now);
+
+            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
+
+            char r[255] = "";
+            strcat(r, buff);
+            strcat(r, "     ");
+            strcat(r, buffer);
+
+            fputs(r, fp);
+
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
         }
