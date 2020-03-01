@@ -80,7 +80,7 @@ void handle_client(int sock, char ip[]) {
         else
         {
             /* Write to socket 2 */
-            write(sock, buffer, strlen(buffer) + 1);
+            write(sock2, buffer, strlen(buffer) + 1);
 
             /* Read from socket 2 */
             read(sock2, &buffer[0], BUFFSIZE);

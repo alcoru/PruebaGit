@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
         printf("Enter a number: \n");
         scanf("%d", &number);
-        if (number < 0 && number > 9)
+        if (number < 0 || number > 9)
         {
             printf("Enter a valid number(0-9): \n");
         }
