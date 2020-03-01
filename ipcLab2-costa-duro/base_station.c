@@ -29,21 +29,29 @@ void closeConnection(int sock){
 void handle_client(int sock) {
     char buffer[BUFFSIZE];
     int received = -1;
+    FILE * fp;
+
+    fp = fopen("base_station.txt", "w");
+
     while(1)
     {
         /* Read from socket */
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
+        /* Write in file */
+        for(int i = 0; i < strlen(buffer); i++)
+        {
+            fprintf(fp,"%s", &buffer);
+        }
+
         /* Write to socket */
         write(sock, buffer, strlen(buffer) + 1);
 
-        printf("Son iguales ? %d \n", strcmp(buffer, CLOSECONNECTION));
-
         if(strcmp(buffer, CLOSECONNECTION) == 0)
         {
-            printf("Sí que lo son\n");
             closeConnection(sock);
+            fclose(fp);
             break;
         }
     }
@@ -55,8 +63,8 @@ int main(int argc, char *argv[]) {
     int result;    
 
     /* Check input arguments */
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <port>\n", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <port> <file>\n", argv[0]);
         exit(1);
     }
 
