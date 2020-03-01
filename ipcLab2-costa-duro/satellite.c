@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 
         if (number == 0)
         {
-            write(sock, CLOSECONNECTION, strlen(CLOSECONNECTION) + 1);sa
+            write(sock, CLOSECONNECTION, strlen(CLOSECONNECTION) + 1);
             break;
         }
 
