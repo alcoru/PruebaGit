@@ -20,7 +20,7 @@
 void err_sys(char *mess) { perror(mess); exit(1); }
 
 void closeConnection(int sock){
-    printf("Bye");
+    printf("Bye\n");
 
     /* Close socket */
     close(sock);
