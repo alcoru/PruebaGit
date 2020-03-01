@@ -92,7 +92,7 @@ void handle_client(int sock, char ip[]) {
             time_t post = time (0);
             pTm = gmtime (&post);
 
-            pTm->tm_years += 2;
+            pTm->tm_year += 2;
 
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
 
