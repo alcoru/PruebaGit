@@ -42,7 +42,7 @@ void handle_client(int sock) {
         /* Write in file */
         for(int i = 0; i < strlen(buffer); i++)
         {
-            fprintf(fp,"%s", &buffer);
+            fprintf(fp,"%c", &buffer);
         }
 
         /* Write to socket */
