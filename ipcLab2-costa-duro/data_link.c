@@ -71,16 +71,18 @@ void handle_client(int sock, char ip[]) {
             time_t now = time (0);
             sTm = gmtime (&now);
 
-            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
+            char inputTime[20];
+
+            strftime (inputTime, sizeof(inputTime), "%Y-%m-%d %H:%M:%S", sTm);
 
             char input[255] = "";
             strcat(input, "[INPUT]      ");
-            strcat(input, buff);
+            strcat(input, inputTime);
             strcat(input, "     ");
             strcat(input, buffer);
 
             /* Write in file */
-            fputs(r, fp);
+            fputs(input, fp);
 
             /* Write to socket 2 */
             write(sock2, buffer, strlen(buffer) + 1);
@@ -97,17 +99,17 @@ void handle_client(int sock, char ip[]) {
 
             pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
-            char buff[20];
+            char outputTime[20];
 
-            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
+            strftime (outputTime, sizeof(outputTime), "%Y-%m-%d %H:%M:%S", pTm);
 
             char output[255] = "";
             strcat(output, "[OUTPUT]     ");
-            strcat(output, buff);
+            strcat(output, outputTime);
             strcat(output, "     ");
             strcat(output, buffer);
 
-            fputs(s, fp);
+            fputs(output, fp);
 
             /* Write to socket */
             write(sock, buffer, strlen(buffer) + 1);
