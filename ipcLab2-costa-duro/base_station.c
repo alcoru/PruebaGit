@@ -31,7 +31,7 @@ void handle_client(int sock) {
     int received = -1;
     FILE * fp;
 
-    fp = fopen("base_station.txt", "w");
+    fp = fopen("base_station.txt", "w+");
 
     while(1)
     {
@@ -40,10 +40,7 @@ void handle_client(int sock) {
         printf("Message from client: %s\n", buffer);
 
         /* Write in file */
-        for(int i = 0; i < strlen(buffer); i++)
-        {
-            fprintf(fp,"%c", &buffer);
-        }
+        fputs(buffer, fp);
 
         /* Write to socket */
         write(sock, buffer, strlen(buffer) + 1);
