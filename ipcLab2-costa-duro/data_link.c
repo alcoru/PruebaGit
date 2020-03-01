@@ -37,7 +37,6 @@ void handle_client(int sock, char ip[]) {
     FILE * fp;
 
     /* Intorduce TimeStamp */
-    char buff[20];
     struct tm *sTm;
     struct tm *pTm;
 
@@ -74,11 +73,11 @@ void handle_client(int sock, char ip[]) {
 
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
 
-            char r[255] = "";
-            strcat(r, "[INPUT]  ");
-            strcat(r, buff);
-            strcat(r, "- ");
-            strcat(r, buffer);
+            char input[255] = "";
+            strcat(input, "[INPUT]      ");
+            strcat(input, buff);
+            strcat(input, "     ");
+            strcat(input, buffer);
 
             /* Write in file */
             fputs(r, fp);
@@ -98,13 +97,15 @@ void handle_client(int sock, char ip[]) {
 
             pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
+            char buff[20];
+
             strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
 
-            char s[255] = "";
-            strcat(s, "[OUTPUT]  ");
-            strcat(s, buff);
-            strcat(s, "- ");
-            strcat(s, buffer);
+            char output[255] = "";
+            strcat(output, "[OUTPUT]     ");
+            strcat(output, buff);
+            strcat(output, "     ");
+            strcat(output, buffer);
 
             fputs(s, fp);
 

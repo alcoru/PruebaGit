@@ -58,7 +58,8 @@ int main(int argc, char *argv[]) {
         scanf("%d", &number);
         if (number < 0 || number > 9)
         {
-            printf("Enter a valid number(0-9): \n");
+            printf("Please, just valid numbers(0-9): \n");
+            continue;
         }
 
         if (number == 0)
