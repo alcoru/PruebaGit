@@ -1,5 +1,5 @@
 /*
- * Filename: satellite.c
+ * Filename: base_station.c
  */
 
 
@@ -26,12 +26,12 @@ void closeConnection(int sock){
     close(sock);
 }
 
-void handle_client(int sock) {
+void handle_client(int sock, char file[]) {
     char buffer[BUFFSIZE];
     int received = -1;
     FILE * fp;
 
-    fp = fopen("base_station.txt", "w+");
+    fp = fopen(file, "w+");
 
     while(1)
     {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 
     /* Check input arguments */
     if (argc != 3) {
-        fprintf(stderr, "Usage: %s <port> <file>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <file>\n", argv[0]);
         exit(1);
     }
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     memset(&echoserver, 0, sizeof(echoserver));       /* we reset memory */
     echoserver.sin_family = AF_INET;                  /* Internet/IP */
     echoserver.sin_addr.s_addr = htonl(INADDR_ANY);   /* ANY address */
-    echoserver.sin_port = htons(atoi(argv[1]));       /* server port */
+    echoserver.sin_port = htons(8080);       /* server port */
 
     /* Bind socket */
     result = bind(serversock, (struct sockaddr *) &echoserver, sizeof(echoserver));
@@ -107,6 +107,6 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Client: %s\n", inet_ntoa(echoclient.sin_addr));
 
         /* Call function to handle socket */
-        handle_client(clientsock);
+        handle_client(clientsock, argv[1]);
     }
 }

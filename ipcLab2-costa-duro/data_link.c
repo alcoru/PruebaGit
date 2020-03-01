@@ -92,7 +92,6 @@ void handle_client(int sock, char ip[]) {
 
             /* Read from socket 2 */
             read(sock2, &buffer[0], BUFFSIZE);
-            printf("Message from client: %s\n", buffer);
 
             time_t post = time (0);
             pTm = gmtime (&post);
@@ -143,7 +142,7 @@ int main(int argc, char *argv[]) {
 
     /* Check input arguments */
     if (argc != 4) {
-        fprintf(stderr, "Usage: %s <ip_server> <port> <file>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <ip_server> <file>\n", argv[0]);
         exit(1);
     }
 
@@ -157,7 +156,7 @@ int main(int argc, char *argv[]) {
     memset(&echoserver, 0, sizeof(echoserver));       /* we reset memory */
     echoserver.sin_family = AF_INET;                  /* Internet/IP */
     echoserver.sin_addr.s_addr = htonl(INADDR_ANY);   /* ANY address */
-    echoserver.sin_port = htons(atoi(argv[2]));       /* server port */
+    echoserver.sin_port = htons(8081);       /* server port */
 
     /* Bind socket */
     result = bind(serversock, (struct sockaddr *) &echoserver, sizeof(echoserver));

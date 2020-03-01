@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
     /* Check input arguments */
     if (argc != 4) {
-        fprintf(stderr, "Usage: %s <ip_server> <word> <port>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <ip_server> <port>\n", argv[0]);
         exit(1);
     }
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     memset(&echoserver, 0, sizeof(echoserver));       /* reset memory */
     echoserver.sin_family = AF_INET;                  /* Internet/IP */
     echoserver.sin_addr.s_addr = inet_addr(argv[1]);  /* IP address */
-    echoserver.sin_port = htons(atoi(argv[3]));       /* server port */
+    echoserver.sin_port = htons(atoi(argv[2]));       /* server port */
     
     /* Try to have a connection with the server */
     result = connect(sock, (struct sockaddr *) &echoserver, sizeof(echoserver));
