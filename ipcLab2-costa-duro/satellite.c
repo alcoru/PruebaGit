@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        if (numnber == 0)
+        if (number_to_send == 0)
         {
             break;
         }
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
         write(sock, &converted_number, sizeof(converted_number));
 
         printf("Enter a word: \n");
-        scanf("%s", char);
+        scanf("%s", word);
 
         /* Write to socket */
         write(sock, word, strlen(word) + 1);
