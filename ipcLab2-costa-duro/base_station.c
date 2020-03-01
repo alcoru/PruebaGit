@@ -65,6 +65,9 @@ void handle_client(int sock) {
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
+        /* Write to socket */
+        write(sock, buffer, strlen(buffer) + 1);
+
         if(buffer[0] == '.')
         {
             break;
