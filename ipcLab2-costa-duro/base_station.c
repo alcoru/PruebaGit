@@ -28,6 +28,9 @@ void handle_client(int sock) {
         read(sock, &buffer[0], BUFFSIZE);
         printf("Message from client: %s\n", buffer);
 
+        /* Write to socket */
+        write(sock, buffer, strlen(buffer) + 1);
+
         printf("%s", buffer);
         printf("%s", CLOSECONNECTION);
 
@@ -37,9 +40,6 @@ void handle_client(int sock) {
             printf("%s", CLOSECONNECTION);
             break;
         }
-
-        /* Write to socket */
-        write(sock, buffer, strlen(buffer) + 1);
     }
 
     printf("Bye");
