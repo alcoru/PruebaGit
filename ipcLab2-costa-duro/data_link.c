@@ -40,11 +40,6 @@ void handle_client(int sock, char ip[]) {
     char buff[20];
     struct tm *sTm;
 
-    time_t now = time (0);
-    sTm = gmtime (&now);
-
-    strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
-
     /* Try to create TCP socket */
     sock2 = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock < 0) {
@@ -73,7 +68,12 @@ void handle_client(int sock, char ip[]) {
 
         if(strcmp(buffer, CLOSECONNECTION) != 0)
         {
-            char r[255];
+            time_t now = time (0);
+            sTm = gmtime (&now);
+
+            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
+
+            char r[255] = "";
             strcat(r, buff);
             strcat(r, "     ");
             strcat(r, buffer);
