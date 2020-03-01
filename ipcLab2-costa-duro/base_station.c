@@ -35,6 +35,7 @@ void handle_client(int sock) {
 
         if(strcmp(buffer, CLOSECONNECTION) == 0)
         {
+            printf("Sí que lo son\n");
             break;
         }
     }
