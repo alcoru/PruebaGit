@@ -74,7 +74,7 @@ void handle_client(int sock, char ip[]) {
         if(strcmp(buffer, CLOSECONNECTION) != 0)
         {
             /* Write in file */
-            fputs(strcat(buffer, buff), fp);
+            fputs(strcat(buff, buffer), fp);
 
             /* Write to socket 2 */
             write(sock2, buffer, strlen(buffer) + 1);
