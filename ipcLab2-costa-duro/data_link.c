@@ -35,6 +35,9 @@ void handle_client(int sock, char ip[]) {
     int sock2, result2;
     int received = -1;
     FILE * fp;
+    time_t t = time (0);
+
+    srand((unsigned) time(&t));
 
     /* Intorduce TimeStamp */
     struct tm *sTm;
@@ -95,7 +98,6 @@ void handle_client(int sock, char ip[]) {
             pTm = gmtime (&post);
 
             /* Generate random delay */
-            srand((unsigned) time(&post));
 
             pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
