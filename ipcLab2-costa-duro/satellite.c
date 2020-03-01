@@ -69,9 +69,6 @@ int main(int argc, char *argv[]) {
         
         converted_number = htonl(number_to_send);
 
-        int number_to_send = 10000; // Put your value
-        int converted_number = htonl(number_to_send);
-
         // Write the number to the opened socket
         write(sock, &converted_number, sizeof(converted_number));
 
