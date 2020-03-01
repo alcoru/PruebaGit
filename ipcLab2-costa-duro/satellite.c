@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
         converted_number = htonl(number_to_send);
 
         // Write the number to the opened socket
+        printf("%d", converted_number);
         write(sock, &converted_number, sizeof(converted_number));
 
         printf("Enter a word: \n");
