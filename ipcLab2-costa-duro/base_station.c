@@ -19,6 +19,13 @@
 
 void err_sys(char *mess) { perror(mess); exit(1); }
 
+void closeConnection(int sock){
+    printfl("Bye");
+
+    /* Close socket */
+    close(sock);
+}
+
 void handle_client(int sock) {
     char buffer[BUFFSIZE];
     int received = -1;
@@ -36,14 +43,10 @@ void handle_client(int sock) {
         if(strcmp(buffer, CLOSECONNECTION) == 0)
         {
             printf("Sí que lo son\n");
+            closeConnection(sock);
             break;
         }
     }
-
-    printf("Bye");
-
-    /* Close socket */
-    close(sock);
 }
 
 int main(int argc, char *argv[]) {
