@@ -31,13 +31,10 @@ void handle_client(int sock) {
         /* Write to socket */
         write(sock, buffer, strlen(buffer) + 1);
 
-        printf("%s", buffer);
-        printf("%s", CLOSECONNECTION);
+        printf("Son iguales ? %d \n", strcmp(buffer, CLOSECONNECTION));
 
         if(strcmp(buffer, CLOSECONNECTION) == 0)
         {
-            printf("%s", buffer);
-            printf("%s", CLOSECONNECTION);
             break;
         }
     }
