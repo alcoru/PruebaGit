@@ -40,7 +40,7 @@ void handle_client(int sock) {
         printf("Message from client: %s\n", buffer);
 
         /* Write in file */
-        fputs(buffer, fp);
+        fputs(strcat(buffer, "\n"), fp);
 
         /* Write to socket */
         write(sock, buffer, strlen(buffer) + 1);
