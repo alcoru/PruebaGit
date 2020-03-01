@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <stdint.h>
 #include <errno.h>
+#include <time.h>
 
 #define MAXPENDING 5    /* Maximum number of simultaneous connections */
 #define BUFFSIZE 255    /* Size of message to be reeived */
@@ -34,6 +35,15 @@ void handle_client(int sock, char ip[]) {
     int sock2, result2;
     int received = -1;
     FILE * fp;
+
+    /* Intorduce TimeStamp */
+    char buff[20];
+    struct tm *sTm;
+
+    time_t now = time (0);
+    sTm = gmtime (&now);
+
+    strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
 
     /* Try to create TCP socket */
     sock2 = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -64,7 +74,7 @@ void handle_client(int sock, char ip[]) {
         if(strcmp(buffer, CLOSECONNECTION) != 0)
         {
             /* Write in file */
-            fputs(buffer, fp);
+            fputs(strcat(buffer, buff), fp);
 
             /* Write to socket 2 */
             write(sock2, buffer, strlen(buffer) + 1);
