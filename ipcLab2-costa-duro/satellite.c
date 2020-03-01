@@ -66,19 +66,21 @@ int main(int argc, char *argv[]) {
         {
             break;
         }
-        
+        /*
         converted_number = htonl(number_to_send);
 
         // Write the number to the opened socket
-        printf("%d", converted_number);
-        write(sock, &converted_number, sizeof(converted_number));
+        write(sock, &converted_number, sizeof(converted_number));*/
 
         printf("Enter a word: \n");
         scanf("%s", word);
 
-        /* Write to socket */
-        write(sock, word, strlen(word) + 1);
-        fprintf(stdout, " sent \n");
+        for (int i = 0; i < number_to_send; i++)
+        {
+            /* Write to socket */
+            write(sock, word, strlen(word) + 1);
+            fprintf(stdout, " sent \n");
+        }
     }
 
     
