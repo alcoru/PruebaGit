@@ -94,7 +94,7 @@ void handle_client(int sock, char ip[]) {
             pTm = gmtime (&post);
 
             /* Generate random delay */
-            srand(time(NULL));
+            srand(time(0));
 
             pTm->tm_sec += rand() % (65 +1 - 0) + 0;
 
