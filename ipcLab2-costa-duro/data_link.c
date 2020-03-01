@@ -89,10 +89,10 @@ void handle_client(int sock, char ip[]) {
             read(sock2, &buffer[0], BUFFSIZE);
             printf("Message from client: %s\n", buffer);
 
-            time_t post = time (1);
-            pTm = gmtime (&now);
+            time_t post = time (0);
+            pTm = gmtime (&post);
 
-            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm);
+            strftime (buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", pTm + 0.2);
 
             char s[255] = "";
             strcat(s, buff);
