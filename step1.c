@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     sem_t*  psem1;
     sem_t*  psem2;
     int result;
+    int sem_value;
 	int 	input;
 	char 	buffer[10+2];
 	char 	key;
