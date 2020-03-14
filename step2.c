@@ -97,9 +97,11 @@ int main(int argc, char *argv[])
         //read shared memory for number
         num = shmp->number;
 
+        printf("%d", num);
+
         if (num == 0)
         {
-            printf("See you !!");
+            printf("See you !!\n");
             break;
         }
         //read shared memory for word
