@@ -73,7 +73,6 @@ int main(int argc, char *argv[])
         if (num == 0)
         {
             printf("See you !!");
-            fclose(file);
             exit(0);
         }
         //read shared memory for word
@@ -82,9 +81,10 @@ int main(int argc, char *argv[])
         //write in the file the word
         file = fopen(name_file, "a+");
         for (int i = 0; i < num; i++)
-            {
-                fputs(word, file);
-            }
+        {
+            fputs(word, file);
+        }
+        fclose(file);
     }
     
     
