@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include <sys/ioctl.h>
-#include <termios.h>
+#include <termio.h>
 
 #include <sys/shm.h>
 #define SHM_KEY 0x1234
@@ -73,13 +73,14 @@ int main(int argc, char *argv[])
         if (num == 0)
         {
             printf("See you !!");
+            fclose(file);
             exit(0);
         }
         //read shared memory for word
         strcpy(word, shmp->word);
 
         //write in the file the word
-        file = fopen(name_file, "wb");
+        file = fopen(name_file, "a+");
         for (int i = 0; i < num; i++)
             {
                 fputs(word, file);

@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include <sys/ioctl.h>
-#include <termios.h>
+#include <termio.h>
 
 #include <sys/shm.h>
 #define SHM_KEY 0x1234
