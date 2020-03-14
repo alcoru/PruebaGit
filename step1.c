@@ -53,9 +53,10 @@ int main(int argc, char *argv[])
 
     //Create sharedMemory
     shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0666|IPC_CREAT);
-    printf("holaaaaa");
+    printf("%d", shmid);
+    printf("holaaaaa\n");
 	if (shmid == -1) err_sys("Shared Memory Error");
-    printf("Adioooos");
+    printf("Adioooos\n");
 
 	//attach to the shmp pointer
 	shmp = shmat(shmid, NULL, 0);
