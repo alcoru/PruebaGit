@@ -187,6 +187,11 @@ int main(int argc, char *argv[])
         {
             shmp->number=0;
             printf("Bye!!\n");
+            result = sem_post(psem2);
+            if (result < 0) 
+            {
+                err_sys("Signal psem2");
+            }
             break;
         }
 
