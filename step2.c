@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	struct shmseg *shmp;
     int num;
     char name_file[100];
-    char word;
+    char word[250];
     FILE * file;
 	
 	if (argc != 1) {
