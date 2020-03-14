@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	if (shmp == (void*)(-1)) err_sys("Shared Memory attachment error");
 
     //read shared memory name for the name of the file
-    strcpy((char*)name_file, (char*)(shmp->fileName));
+    strcpy(name_file, (char*)(shmp->fileName));
     while (1)
     {
         //read shared memory for number
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
             exit(0);
         }
         //read shared memory for word
-        strcpy((char*)word, (char*)(shmp->word));
+        strcpy(word, (char*)(shmp->word));
 
         //write in the file the word
         file = fopen(name_file, "wb");
