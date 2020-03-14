@@ -28,9 +28,27 @@ void err_sys(const char* text)
 	exit(1);
 } 
 
+char inkey(void) {
+    char c;
+    struct termio param_ant, params;
+
+    ioctl(STDINFD, TCGETA, &param_ant);
+
+    params = param_ant;
+    params.c_lflag &= ~(ICANON | ECHO);
+    params.c_cc[4] = 1;
+
+    ioctl(STDINFD, TCSETA, &params);
+
+    fflush(stdin); fflush(stderr); fflush(stdout);
+    read(STDINFD, &c, 1);
+
+    ioctl(STDINFD, TCSETA, &param_ant);
+    return c;
+}
+
 struct shmseg {
 	int number;
-	int end;
     char fileName[100];
 	char word[250];
 };
@@ -50,11 +68,18 @@ int main(int argc, char *argv[])
     char name_file[100];
     char word[250];
     FILE * file;
-	
+	/*
 	if (argc != 1) {
 	fprintf(stderr, "USAGE: %s <iterations> <ID>\n", argv[0]);
     exit(1);
-	}	
+	}	*/
+
+    if ((psem1 = (sem_t*)sem_open("/semaphore1", O_CREAT, 0600, 0)) == SEM_FAILED) {
+        err_sys("OPEN psem1");
+    }
+    if ((psem2 = (sem_t*)sem_open("/semaphore2", O_CREAT, 0600, 0)) == SEM_FAILED) {
+        err_sys("OPEN psem2");
+    }
 	
     shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0666);
 	if (shmid == -1) err_sys("Shared Memory Error");
@@ -67,13 +92,15 @@ int main(int argc, char *argv[])
     strcpy(name_file, shmp->fileName);
     while (1)
     {
+        if (sem_wait(psem2) < 0) err_sys("WAIT psem2");
+
         //read shared memory for number
         num = shmp->number;
 
         if (num == 0)
         {
             printf("See you !!");
-            exit(0);
+            break;
         }
         //read shared memory for word
         strcpy(word, shmp->word);
@@ -85,7 +112,11 @@ int main(int argc, char *argv[])
             fputs(word, file);
         }
         fclose(file);
+
+        if (sem_post(psem1) < 0) err_sys("SIGNAL psem1");
     }
-    
-    
+
+    //we can close de semaphore ID
+    if (sem_close(psem1) != 0) err_sys("CLOSE psem1");
+    if (sem_close(psem2) != 0) err_sys("CLOSE psem2");
 }

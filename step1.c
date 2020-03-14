@@ -23,13 +23,31 @@
 
 void err_sys(const char* text)
 {
-	perror(text);
-	exit(1);
-} 
+    perror(text);
+    exit(1);
+}
+
+char inkey(void) {
+    char c;
+    struct termio param_ant, params;
+
+    ioctl(STDINFD, TCGETA, &param_ant);
+
+    params = param_ant;
+    params.c_lflag &= ~(ICANON | ECHO);
+    params.c_cc[4] = 1;
+
+    ioctl(STDINFD, TCSETA, &params);
+
+    fflush(stdin); fflush(stderr); fflush(stdout);
+    read(STDINFD, &c, 1);
+
+    ioctl(STDINFD, TCSETA, &param_ant);
+    return c;
+}
 
 struct shmseg {
 	int number;
-	int end;
     char fileName[100];
 	char word[250];
 };
@@ -37,6 +55,9 @@ struct shmseg {
 
 int main(int argc, char *argv[])
 {
+    sem_t*  psem1;
+    sem_t*  psem2;
+    int result;
 	int 	input;
 	char 	buffer[10+2];
 	char 	key;
@@ -51,12 +72,89 @@ int main(int argc, char *argv[])
     exit(1);
 	}	
 
+    /* Create psem1 */
+    psem1 = (sem_t*)sem_open("/semaphore1", O_CREAT, 0600, 0);
+    if (psem1 == SEM_FAILED) {
+        err_sys("Open psem1");
+    }
+
+    /* Read and print psem1 value */
+    result = sem_getvalue(psem1, &sem_value);
+    if (result < 0) {
+        err_sys("Read psem1");
+    }
+    printf("PROCESS 1(SEM1): %d\n", sem_value);
+
+    /* Wait for sem_value to be 0 */
+    while (sem_value > 0) {
+        sem_wait(psem1);
+        sem_value--;
+    }
+
+    /* Repeat */
+    count = 0;
+    while (count < 1) {
+        /* Increment the value of semaphore to initialize it to set argument */
+        count++;
+
+        /* Post to psem1 */
+        result = sem_post(psem1);
+        if (result < 0) {
+            err_sys("Post psem1");
+        }
+    }
+
+    /* Read and print psem1 value */
+    result = sem_getvalue(psem1, &sem_value);
+    if (result < 0) {
+        err_sys("Read psem1");
+    }
+    printf("PROCESS 1(SEM1): %d\n", sem_value);
+
+    /* Create psem2 */
+    psem2 = (sem_t*)sem_open("/semaphore2", O_CREAT, 0600, 0);
+    if (psem2 == SEM_FAILED) {
+        err_sys("Open psem2");
+    }
+
+    /* Read and print psem2 value */
+    result = sem_getvalue(psem2, &sem_value);
+    if (result < 0) {
+        err_sys("Read psem2");
+    }
+    printf("PROCESS 1(SEM2): %d\n", sem_value);
+
+    /* Wait for sem_value to be 0 */
+    while (sem_value > 0) {
+        sem_wait(psem2);
+        sem_value--;
+    }
+
+    /* Repeat */
+    count = 0;
+    while (count < 0) {
+        /* Increment the value of semaphore to initialize it to set argument */
+        count++;
+
+        /* Post to psem1 */
+        result = sem_post(psem2);
+        if (result < 0) {
+            err_sys("Post psem2");
+        }
+    }
+
+    /* Read and print psem2 value */
+    result = sem_getvalue(psem2, &sem_value);
+    if (result < 0) {
+        err_sys("Read psem2");
+    }
+    printf("PROCESS 1(SEM2): %d\n", sem_value);
+
+
     //Create sharedMemory
     shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0666|IPC_CREAT);
     printf("%d", shmid);
-    printf("holaaaaa\n");
 	if (shmid == -1) err_sys("Shared Memory Error");
-    printf("Adioooos\n");
 
 	//attach to the shmp pointer
 	shmp = shmat(shmid, NULL, 0);
@@ -70,6 +168,11 @@ int main(int argc, char *argv[])
     //Ask user for a number (0-9)
     while (1)
     {
+        result = sem_wait(psem1);
+        if (result < 0) {
+            err_sys("Wait psem1");
+        }
+
         printf("Enter a number: \n");
         scanf("%d", &number);
         if (number < 0 || number > 9)
@@ -81,14 +184,13 @@ int main(int argc, char *argv[])
         //Finalize process
         if(number == 0)
         {
-            shmp->end=1;
+            shmp->number=0;
             printf("Bye!!");
-            exit(0);
+            break;
         }
 
         //Write in sharedMemory the number
         shmp->number=number;
-        shmp->end=0;
 
 
         //Ask user for a word
@@ -97,7 +199,24 @@ int main(int argc, char *argv[])
         strcat(word, "\n");
 
         //Write in sharedmemory the word
-        strcpy((char*)(shmp->word), word);  
+        strcpy((char*)(shmp->word), word);
+
+        result = sem_post(psem2);
+        if (result < 0) {
+            err_sys("Signal psem2");
+        }
         
+    }
+
+    /* Close psem1 */
+    result = sem_close(psem1);
+    if (result != 0) {
+        err_sys("Close psem1");
+    }
+
+    /* Close psem2 */
+    result = sem_close(psem2);
+    if (result != 0) {
+        err_sys("Close psem2");
     }
 }
