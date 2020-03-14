@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
         if(number == 0)
         {
             shmp->end=1;
-            printf("Bye!!")
+            printf("Bye!!");
             exit(0);
         }
 

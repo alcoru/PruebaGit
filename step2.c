@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     int num;
     char name_file[100];
     char word;
-    FILE file;
+    FILE * file;
 	
 	if (argc != 1) {
 	fprintf(stderr, "USAGE: %s <iterations> <ID>\n", argv[0]);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	if (shmp == (void*)(-1)) err_sys("Shared Memory attachment error");
 
     //read shared memory name for the name of the file
-    strcpy(name_file, (char*)(shmp->fileName));
+    strcpy((char*)name_file, (char*)(shmp->fileName));
     while (1)
     {
         //read shared memory for number
@@ -76,10 +76,10 @@ int main(int argc, char *argv[])
             exit(0);
         }
         //read shared memory for word
-        strcpy(word, (char*)(shmp->word));
+        strcpy((char*)word, (char*)(shmp->word));
 
         //write in the file the word
-        file = fopen(name_file, "wb")
+        file = fopen(name_file, "wb");
         for (int i = 0; i < num; i++)
             {
                 fputs(word, file);
