@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
         if(number == 0)
         {
             shmp->number=0;
-            printf("Bye!!");
+            printf("Bye!!\n");
             break;
         }
 

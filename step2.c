@@ -90,6 +90,12 @@ int main(int argc, char *argv[])
 
     //read shared memory name for the name of the file
     strcpy(name_file, shmp->fileName);
+
+    /*Create and clean the file*/
+    file = fopen(name_file, "w+");
+    fputs("", file);
+    fclose(file);
+    
     while (1)
     {
         if (sem_wait(psem2) < 0) err_sys("WAIT psem2");
